@@ -4,11 +4,15 @@ import DATA from './data';
 
 const App = () => {
   const showRoute = (route) => {
+    const airline = DATA.getAirlineById(route.airline);
+    const src = DATA.getAirportByCode(route.src);
+    const dest = DATA.getAirportByCode(route.dest);
+
     return (
       <tr>
-        <td>{route.airline}</td>
-        <td>{route.src}</td>
-        <td>{route.dest}</td>
+        <td>{airline.name}</td>
+        <td>{src.name}</td>
+        <td>{dest.name}</td>
       </tr>
     )
   };
@@ -21,9 +25,9 @@ const App = () => {
       <section>
         <table>
         <tr>
-          <td>airline:</td>
-          <td>src:</td>
-          <td>dest:</td>
+          <th>Airline:</th>
+          <th>Source Airport:</th>
+          <th>Destination Airport:</th>
         </tr>
         {DATA.routes.map(showRoute)}
         </table>
