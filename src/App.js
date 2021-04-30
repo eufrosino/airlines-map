@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import Table from './components/Table';
 import Select from './components/Select';
+import Map from './components/Map';
 import DATA from './data';
 
 const App = () => {
@@ -65,32 +66,33 @@ const App = () => {
       <header className='header'>
         <h1 className='title'>Airline Routes</h1>
       </header>
-      <p>
-        Show routes on
-        <Select
-          options={filteredAirlines}
-          valueKey='id'
-          titleKey='name'
-          allTitle='All Airlines'
-          value={airline}
-          onSelect={airlineSelected}
-          enabledKey='active'
-        />
-        flying in or out of
-        <Select
-          options={filteredAirports}
-          valueKey='code'
-          titleKey='name'
-          enabledKey='active'
-          allTitle='All Airports'
-          value={airport}
-          onSelect={airportSelected}
-        />
-        <button onClick={clearFilters} disabled={setToDefault}>
-          Show All Routes
-        </button>
-      </p>
       <section>
+        <Map routes={filteredRoutes}/>
+        <p>
+          Show routes on
+          <Select
+            options={filteredAirlines}
+            valueKey='id'
+            titleKey='name'
+            allTitle='All Airlines'
+            value={airline}
+            onSelect={airlineSelected}
+            enabledKey='active'
+          />
+          flying in or out of
+          <Select
+            options={filteredAirports}
+            valueKey='code'
+            titleKey='name'
+            enabledKey='active'
+            allTitle='All Airports'
+            value={airport}
+            onSelect={airportSelected}
+          />
+          <button onClick={clearFilters} disabled={setToDefault}>
+            Show All Routes
+          </button>
+        </p>
         <Table
           className='routes-table'
           columns={columns}
