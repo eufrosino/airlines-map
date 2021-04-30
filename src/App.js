@@ -6,6 +6,7 @@ import DATA from './data';
 
 const App = () => {
   const [airline, setAirline] = useState('all');
+  const [airport, setAirport] = useState('all');
 
   const formatValue = (property, value) => {
     if (property === 'airline') {
@@ -15,7 +16,10 @@ const App = () => {
   };
 
   const filteredRoutes = DATA.routes.filter((route) => {
-    return (route.airline === airline || airline === 'all');
+    return (
+      (route.airline === airline || airline === 'all') &&
+      (route.src === airport || route.dest === airport || airport === 'all')
+    );
   });
 
   const filteredAirlines = DATA.airlines.map((airline) => {
@@ -25,11 +29,22 @@ const App = () => {
     return Object.assign({}, airline, { active });
   });
 
+  const filteredAirports = DATA.airports.map((airport) => {
+    const active = !!filteredRoutes.find(route => {
+      return (route.src === airport.code || route.dest === airport.code);
+    });
+    return Object.assign({}, airport, { active });
+  });
+
   const airlineSelected = (value) => {
     if (value !== 'all') {
       value = Number(value);
     }
     setAirline(value);
+  };
+
+  const airportSelected = (value) => {
+    setAirport(value);
   };
 
   const columns = [
@@ -53,6 +68,16 @@ const App = () => {
           value={airline}
           onSelect={airlineSelected}
           enabledKey='active'
+        />
+        flying in or out of
+        <Select
+          options={filteredAirports}
+          valueKey="code"
+          titleKey="name"
+          enabledKey="active"
+          allTitle="All Airports"
+          value={airport}
+          onSelect={airportSelected}
         />
       </p>
       <section>
