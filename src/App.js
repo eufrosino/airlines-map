@@ -1,42 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 import Table from './components/Table';
+import Select from './components/Select';
 import DATA from './data';
-
-const AirlineSelect = ({
-  options = [],
-  valueKey = '',
-  titleKey = '',
-  value = 'all',
-  allTitle = 'all',
-  onSelect = (_) => null,
-}) => {
-  const handleChange = (event) => {
-    event.preventDefault();
-    onSelect(event.target.value);
-  };
-
-  let optionElements = [
-    <option key='all' value='all'>
-      {allTitle}
-    </option>
-  ]
-
-  options.forEach(option => {
-    const value = option[valueKey]
-    optionElements.push(
-      <option key={value} value={value}>
-        {option[titleKey]}
-      </option>
-    );
-  });
-
-  return (
-    <select value={value} onChange={handleChange}>
-      {optionElements}
-    </select>
-  )
-}
 
 const App = () => {
   const [airline, setAirline] = useState('all');
@@ -79,13 +45,14 @@ const App = () => {
       </header>
       <p>
         Show routes on
-        <AirlineSelect
+        <Select
           options={filteredAirlines}
           valueKey='id'
           titleKey='name'
           allTitle='All Airlines'
           value={airline}
           onSelect={airlineSelected}
+          enabledKey='active'
         />
       </p>
       <section>
